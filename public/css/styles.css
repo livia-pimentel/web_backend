@@ -193,9 +193,9 @@ ul li a {
   color: #000;
 }
 
-/* #inv-display a:hover {
-  transform: none;
-} */
+.namePrice {
+  color:#000
+}
 
 
 /******* Laptop ********/
