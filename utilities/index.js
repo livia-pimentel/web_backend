@@ -33,7 +33,7 @@ Util.getNav = async function (req, res, next) {
 Util.buildClassificationGrid = async function(data){
     let grid
     if(data.length > 0){
-      grid = '<ul id="inv-display">'
+      grid = '<ul class="classification-grid" id="inv-display">'
       data.forEach(vehicle => { 
         grid += '<li>'
         grid +=  '<a href="../../inv/detail/'+ vehicle.inv_id 
@@ -64,29 +64,35 @@ Util.buildClassificationGrid = async function(data){
 * Build the detail view HTML
 * ************************************ */
 Util.buildByItemDetailGrid = async function(data){
-  let grid
+  let grid_detail
   if(data.length > 0){
-    grid = '<div id="inv-display">'
+    grid_detail = '<div class="detail-grid">'
     data.forEach(vehicle => { 
-      grid += '<h1>'
-      grid += vehicle.inv_year + ' ' + vehicle.inv_make + ' ' + vehicle.inv_model + '</h1>'
-      grid += '<a href="../../detail/' + ' ' + vehicle.inv_image + '</a>'
-      grid += '<section>'
-      grid += '<h2>' + vehicle.inv_make + ' ' + vehicle.inv_model + '</h2>'
-      grid += '<span> Price:' 
-        + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
-      grid += '<span> Detail:' + vehicle.inv_description + '</span>'
-      grid += '<span> Color:' + vehicle.inv_color + '</span>'
-      grid += '<span> Miles:' 
-      + new Intl.NumberFormat('en-US').format(vehicle.inv_miles) + '</span>'
+      grid_detail += '<div>'
+      grid_detail += '<h1>'
+      grid_detail += vehicle.inv_year + ' ' + vehicle.inv_make + ' ' + vehicle.inv_model + '</h1>'
+      grid_detail +=  '<a href="../../detail/'+ vehicle.inv_id 
+        + '" title="View ' + vehicle.inv_make + ' '+ vehicle.inv_model 
+        + 'details"><img src="' + vehicle.inv_image
+        +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model 
+        +' on CSE Motors" /></a>'
+      grid_detail += '</div>'
+      grid_detail += '<section>'
+      grid_detail += '<h2>' + vehicle.inv_make + ' ' + vehicle.inv_model + '</h2>'
+      grid_detail += '<span><strong>Price:</strong> ' 
+        + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span><br><br>'
+      grid_detail += '<span><strong>Detail:</strong> ' + vehicle.inv_description + '</span><br><br>'
+      grid_detail += '<span><strong>Color:</strong> ' + vehicle.inv_color + '</span><br><br>'
+      grid_detail += '<span><strong>Miles:</strong> ' 
+      + new Intl.NumberFormat('en-US').format(vehicle.inv_miles) + '</span><br>'
+      grid_detail += '</section>'
       
-
     })
-    grid += '</div>'
+    grid_detail += '</div>'
   } else { 
-    grid += '<p class="notice">Sorry, no matching vehicles could be found.</p>'
+    grid_detail += '<p class="notice">Sorry, no matching vehicles could be found.</p>'
   }
-  return grid
+  return grid_detail
 }
 
 

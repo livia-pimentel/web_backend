@@ -64,30 +64,25 @@ h1 {
 }
 
 /* Nav */
-ul{
+nav ul{
   display: flex;
   justify-content: space-around;
   background-color: #000;
   padding: 0.5rem;
 }
 
-ul li {
+nav ul li {
   list-style: none;
   color: #fff;
-  font-size: 1.1rem;
+  font-size: 1rem;
   padding: 0.5rem;
   cursor: pointer;
 }
 
-ul li a {
+nav ul li a {
   color: #fff;
+  text-decoration: none;
 }
-
-/* ul li:hover{
-  transform: scale(1.2);
-  font-weight: bold;
-  color: green;
-} */
 
 /* Main */
 .container-banner {
@@ -141,6 +136,7 @@ ul li a {
   padding: 0.5rem;
 }
 
+
 .container-descripton p {
   margin: 0.3rem;
   padding: 0.3rem;
@@ -180,21 +176,54 @@ ul li a {
 /* Footer */
 .copyright {
   margin: 0.5rem;
+  margin-top: 3rem;
 }
 
-/* Classification Vehicules */
-#inv-display {
-  display: block;
-  background-color: transparent;
+/* Classification View */
+.classification-grid {
+  list-style: none;
   text-align: center;
 }
 
-#inv-display a {
-  color: #000;
+.classification-grid li {
+  border: 1px solid green;
+  border-radius: 10px;
+  padding: 0.5rem;
+  margin-bottom: 0.6rem;
 }
 
-.namePrice {
-  color:#000
+.classification-grid hr {
+  width: 80%;
+  background-color: #000;
+  height: 0.3rem;
+  border-color: #000;
+}
+
+.classification-grid a {
+  color: green;
+}
+
+/* Detail View */
+.detail-grid {
+  text-align: center;
+}
+
+.detail-grid h1 {
+  font-size: 1.3rem;
+}
+
+.detail-grid img {
+  width: 70%;
+}
+
+.detail-grid h2 {
+  color: green;
+}
+
+.detail-grid section {
+  width: 65%;
+  margin: 0 auto;
+  text-align: left;
 }
 
 
@@ -238,8 +267,14 @@ ul li a {
   }
 
   /* Nav */
-  .nav-bar ul li {
+  nav ul li {
     font-size: 1.5rem;
+  }
+
+  nav ul li a:hover {
+    padding: 1rem;
+    background-color: green;
+    border-radius: 5px;
   }
 
   h2, .container-banner h1 {
@@ -305,6 +340,44 @@ ul li a {
   .container-descripton ul li {
     font-size: 1.4rem;
     padding: 0.3rem;
+  }
+
+  /* Classification View */
+  .classification-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    justify-items: center;
+  }
+
+  .classification-grid img {
+    height: 100px ;
+    width: 200px;
+  }
+
+  .namePrice h2 {
+    font-size: 1.4rem;
+  }
+
+  /* Detail View */
+  .detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+
+  .detail-grid h1 {
+    font-size: 1.8rem;
+    text-align: start;
+    padding: 0.5rem;
+  }
+
+  .detail-grid img {
+    width: 90%;
+  }
+
+  .detail-grid section {
+    margin-top: 2.5rem;
   }
 }
 
