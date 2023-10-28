@@ -226,6 +226,23 @@ nav ul li a {
   text-align: left;
 }
 
+/* Error */
+
+.error_title {
+  font-size: 2.5rem;
+  text-align: center;
+}
+
+.error_msg {
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.error_img {
+  width: 75%;
+  margin: 0 15% ;
+}
+
 
 /******* Laptop ********/
 
@@ -378,6 +395,13 @@ nav ul li a {
 
   .detail-grid section {
     margin-top: 2.5rem;
+  }
+
+  /* Error */
+  .error_msg {
+    text-align: center;
+    font-size: 1.6rem;
+    color: #000;
   }
 }
 

@@ -1,2 +1,7 @@
-<h1><%= (title) %></h1>
-<h1><%= message %></h1>
+<h1 class="error_title"><%= (title) %></h1>
+<h2 class="error_msg"><%= message %></h2>
+<% if (title == 404) { %>
+    <img class="error_img" src="/images/site/error_404.jpg" alt="Error 404 Image">
+<% } else { %>
+    <img class="error_img" src="/images/site/own_today.png" alt="Error 500 Image">
+<% } %> 
