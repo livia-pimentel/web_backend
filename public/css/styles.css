@@ -243,6 +243,13 @@ nav ul li a {
   margin: 0 15% ;
 }
 
+/* input:required:invalid, input:focus:invalid {
+  background-color: red;
+} */
+
+input:required:valid {
+  background-color: green;
+}
 
 /******* Laptop ********/
 

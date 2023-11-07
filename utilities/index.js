@@ -80,7 +80,7 @@ Util.buildByItemDetailGrid = async function(data){
       grid_detail += '<section>'
       grid_detail += '<h2>' + vehicle.inv_make + ' ' + vehicle.inv_model + '</h2>'
       grid_detail += '<span><strong>Price:</strong> ' 
-        + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span><br><br>'
+        + '$' + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span><br><br>'
       grid_detail += '<span><strong>Detail:</strong> ' + vehicle.inv_description + '</span><br><br>'
       grid_detail += '<span><strong>Color:</strong> ' + vehicle.inv_color + '</span><br><br>'
       grid_detail += '<span><strong>Miles:</strong> ' 
