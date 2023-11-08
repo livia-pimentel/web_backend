@@ -243,12 +243,88 @@ nav ul li a {
   margin: 0 15% ;
 }
 
-/* input:required:invalid, input:focus:invalid {
-  background-color: red;
-} */
+/* Login  */
+.login h1, .title_register {
+  margin: 0.5rem;
+  padding: 0.5rem;
+  color: green;
+  font-size: 1.5rem;
+}
+
+.form_login, .form_register {
+  width: 70vw;
+  margin: auto;
+}
+
+.form_login fieldset, .form_register fieldset {
+  border-radius: 5px;
+  box-shadow: 3px 3px 5px #b0aeae;
+  background-color:rgba(158, 201, 243, 0.788);
+}
+
+label, input{
+  display: block;
+  padding: 0.2rem;
+}
+
+input {
+  width: 90%;
+  background-color: #ccc;
+}
+
+.loginBtn, .registerBtn {
+  width: 90%;
+  padding: 0.5rem;
+  margin-top: 0.6rem;
+  font-family: 'Lato', sans-serif;
+  font-size: 1.3rem;
+  background-color: rgba(38, 140, 241, 0.797);
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+.loginBtn:hover, .registerBtn:hover {
+  background-color: rgb(38, 140, 241);
+}
+
+.login p{
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+/* Register */
+.form_register p {
+  text-align: center;
+  font-weight: bold;
+}
+.form_register span {
+  padding: 0.5rem;
+}
+
+.passwordBtn {
+  width: 200px;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  font-weight: bold;
+  border: 1px solid black;
+  text-align: center;
+  border-radius: 10px;
+  background-color: #ccc;
+}
+
+.notice {
+  color: #e21111;
+  font-style: italic;
+}
+
+input:required:invalid, input:focus:invalid {
+  border-color: #e21111;
+}
 
 input:required:valid {
-  background-color: green;
+  border-color: green;
 }
 
 /******* Laptop ********/
@@ -410,6 +486,17 @@ input:required:valid {
     font-size: 1.6rem;
     color: #000;
   }
+
+  /* Login  */
+  .login h1, .title_register {
+  font-size: 1.8rem;
+  margin-left: 1.5rem;
+  }
+
+  .form_login, .form_register {
+    width: 50vw;
+  }
+
 }
 
 

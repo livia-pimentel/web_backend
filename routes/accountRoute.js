@@ -19,7 +19,15 @@ routerAccount.post(
 //Route "Register" 
 routerAccount.get("/register", utilities.handleErrors(accountController.buildRegister))
 
-
+// Process the login attempt
+routerAccount.post(
+    "/login",
+    regValidate.loginRules(),
+    regValidate.checkLoginData,
+    (req, res) => {
+      res.status(200).send('login process')
+    }
+  )
 
 //Route Error
 // routerAccount.get("/throwerror");
