@@ -1,0 +1,12 @@
+<h1><%= (title) %></h1>
+<%- messages() %> 
+
+ <form action="/inv/add-classification" method="post" id="form_addClassification" class="form_addClassification">
+    <p>ALL FIELDS ARE REQUIRED.</p>
+    <fieldset>
+        <p>Classification Name</p>
+        <span>NAME MUST BE ALPHABETIC CHARACTERS ONLY.</span>
+        <input type="text" name="classification_name" id="addClassification" pattern="[A-Za-z]{3,}" required value="<%= locals.classification_name %>">
+        <button type="submit" class="addClassificationBtn">Add Classification</button>
+    </fieldset>
+ </form>
