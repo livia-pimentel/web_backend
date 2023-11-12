@@ -132,7 +132,7 @@ invCont.buildAddNewCar = async function (req, res, next) {
   let nav = await utilities.getNav()
   try {
     res.render("./inventory/add-inventory", {
-      title: "Add New Car",
+      title: "Add New Vehicle",
       nav,
       errors: null,
       classificationList
@@ -151,12 +151,12 @@ invCont.buildAddNewCar = async function (req, res, next) {
 *  Process Add Classification
 * *************************************** */
 invCont.addClassification = async function  (req, res) {
-  let nav = await utilities.getNav()
   const { classification_name } = req.body
   const addClassResult = await invModel.addClassification(
     classification_name
   )
-  console.log(addClassResult)
+  let nav = await utilities.getNav()
+  // console.log(addClassResult)
   if (addClassResult) {
     req.flash(
       "notice",
@@ -176,5 +176,38 @@ invCont.addClassification = async function  (req, res) {
     })
   }
 }
+
+/* ****************************************
+*  Process Add Vehicle
+* *************************************** */
+invCont.addVehicle = async function  (req, res) {
+  let nav = await utilities.getNav()
+  let classificationList = await utilities.buildClassificationList()
+  const { classification_id, inv_make, inv_model, inv_descripton, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color } = req.body
+  const addVehicleResult = await invModel.addVehicle(
+    classification_id, inv_make, inv_model, inv_descripton, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color
+  )
+  console.log(addVehicleResult)
+  if (addVehicleResult) {
+    req.flash(
+      "notice",
+      `The ${inv_make} ${inv_model} was successfully added.`,
+    )
+    res.status(201).render("./inventory/management", {
+      title: "Vehicles Management",
+      nav,
+      errors: null,
+    })
+  } else {
+    req.flash("notice", "Sorry, the add vehicle failed.")
+    res.status(501).render("./inventory/add-inventory", {
+      title: "Add New Vehicle",
+      nav,
+      errors: null,
+      classificationList
+    })
+  }
+}
+
 
 module.exports = invCont

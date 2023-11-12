@@ -12,12 +12,14 @@ validate.registationRules = () => {
       body("account_firstname")
         .trim()
         .isLength({ min: 1 })
+        .customSanitizer(value => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()) //Convert the first letter to uppercase and the last letter to lowercase
         .withMessage("Please provide a first name."), // on error this message is sent.
   
       // lastname is required and must be string
       body("account_lastname")
         .trim()
         .isLength({ min: 2 })
+        .customSanitizer(value => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()) //Convert the first letter to uppercase and the last letter to lowercase
         .withMessage("Please provide a last name."), // on error this message is sent.
   
       // valid email is required and cannot already exist in the DB
@@ -25,6 +27,7 @@ validate.registationRules = () => {
       .trim()
       .isEmail()
       .normalizeEmail() // refer to validator.js docs
+      .customSanitizer(value => value.toLowerCase()) //Convert to lowercase
       .withMessage("A valid email is required.")
       .custom(async (account_email) => {
         const emailExists = await accountModel.checkExistingEmail(account_email)

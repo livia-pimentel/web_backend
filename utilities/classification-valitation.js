@@ -24,8 +24,6 @@ validateClass.classificationRules = () => {
   ];
 };
 
-
-
   /* ******************************
  * Check data and return errors or continue to add classification
  * ***************************** */

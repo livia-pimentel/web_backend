@@ -20,8 +20,21 @@
             <label for="password">Password</label>
             <input type="password" id="password" name="account_password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$" required>
             <span>Passwords must be at least 12 characters and contain at least 1 number, 1 capital letter and 1 special character</span> 
-            <div id="passwordBtn" class="passwordBtn">Show Password</div>
+            <div id="passwordBtn" class="passwordBtn" onclick="togglePassword()">Show Password</div>
             <button type="submit" class="registerBtn">Register</button>
         </fieldset>
     </form>
 </div>
+<script>
+    function togglePassword() {
+      // Get the password element
+      var passwordInput = document.querySelector("#password");
+
+      // Switch the input type between 'password' and 'text'
+      if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+      } else {
+        passwordInput.type = "password";
+      }
+    }
+  </script>
