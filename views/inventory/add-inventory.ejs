@@ -1,4 +1,3 @@
-<h1><%= (title) %></h1>
 <%- messages() %> 
 <% if (errors) { %>
   <ul class="notice">
@@ -10,27 +9,28 @@
 
 
 <form action="/inv/add-inventory" method="post" id="form_addInv" class="form_addInv">
+    <h1><%= (title) %></h1>
     <p>ALL FIELDS ARE REQUIRED.</p>
     <fieldset>
-        <label for="classification">classification</label>
+        <label for="classification_id">Classification</label>
         <%- classificationList %>
-        <label for="make">Make</label>
+        <label for="inv_make">Make</label>
         <input type="text" id="inv_make" name="inv_make" pattern="[A-Za-z]{3,}" required value="<% locals.inv_make %>" placeholder="Min of 3 characters" >
-        <label for="model">Model</label>
-        <input type="text" id="inv_model" name="inv_model" required value="<% locals.inv_model %>" pattern="[A-Za-z0-9]{3,}"placeholder="Min of 3 characters">
-        <label for="descripton">Descripton</label>
-        <textarea name="inv_descripton" id="inv_descripton" cols="80" rows="10" required value="<% locals.inv_descripton %>"></textarea>
-        <label for="image">Image Path</label>
-        <input type="text" id="inv_image" name="inv_image" required value="<% locals.inv_image %>">
-        <label for="thumbnail">Thumbnail Path</label>
-        <input type="text" id="inv_thumbnail" name="inv_thumbnail" required value="<% locals.inv_thumbnail %>">
-        <label for="price">Price</label>
+        <label for="inv_model">Model</label>
+        <input type="text" id="inv_model" name="inv_model" required value="<% locals.inv_model %>" pattern="[A-Za-z0-9]{3,}" placeholder="Min of 3 characters">
+        <label for="inv_descripton">Descripton</label>
+        <textarea name="inv_descripton" id="inv_descripton" cols="30" rows="10" required <% locals.inv_descripton %>></textarea>
+        <label for="inv_image">Image Path</label>
+        <input type="text" id="inv_image" name="inv_image" required value="/images/vehicles/no-image.webp">
+        <label for="inv_thumbnail">Thumbnail Path</label>
+        <input type="text" id="inv_thumbnail" name="inv_thumbnail" required value="/images/vehicles/no-image.webp">
+        <label for="inv_price">Price</label>
         <input type="text" id="inv_price" name="inv_price" required value="<% locals.inv_price %>" pattern="^\d+(\.\d+)?$" placeholder="decimal or integer">
-        <label for="year">Year</label>
+        <label for="inv_year">Year</label>
         <input type="text" id="inv_year" name="inv_year" required pattern="[0-9]{4}" value="<% locals.inv_year %>" placeholder="4-digits year">
-        <label for="miles">Miles</label>
+        <label for="inv_miles">Miles</label>
         <input type="number" id="inv_miles" name="inv_miles" required value="<% locals.inv_miles %>" placeholder="digits only">
-        <label for="color">Color</label>
+        <label for="inv_color">Color</label>
         <input type="text" id="inv_color" name="inv_color" required value="<% locals.inv_color %>">
         <button type="submit" class="addInvBtn">Add New Car</button>
     </fieldset>

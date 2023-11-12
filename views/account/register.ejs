@@ -1,4 +1,3 @@
-<h1 class="title_register"><%= (title) %></h1>
 <%- messages() %> 
 <% if (errors) { %>
     <ul class="notice">
@@ -7,14 +6,14 @@
   <%  }) %>
    </ul>
  <% } %>
-<div>
     <form  action="/account/register" method="post" id="form_register" class="form_register">
+      <h1 class="title_register"><%= (title) %></h1>
         <p>ALL FIELDS ARE REQUIRED.</p>
         <fieldset>
             <label for="fisrtname">First Name</label>
-            <input type="text" id="fisrtname" name="account_firstname" required value="<%= locals.account_firstname %>">
+            <input type="text" id="fisrtname" name="account_firstname" required value="<%= locals.account_firstname %>" pattern="[A-Za-z]+">
             <label for="lastname">Last Name</label>
-            <input type="text" id="lastname" name="account_lastname" required value="<%= locals.account_lastname %>">
+            <input type="text" id="lastname" name="account_lastname" required value="<%= locals.account_lastname %>" pattern="[A-Za-z]+">
             <label for="email">Email Address</label>
             <input type="email" id="email" name="account_email" required value="<%= locals.account_email %>">
             <label for="password">Password</label>
@@ -24,7 +23,7 @@
             <button type="submit" class="registerBtn">Register</button>
         </fieldset>
     </form>
-</div>
+  
 <script>
     function togglePassword() {
       // Get the password element

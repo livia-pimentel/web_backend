@@ -251,15 +251,23 @@ nav ul li a {
   font-size: 1.5rem;
 }
 
-.form_login, .form_register {
-  width: 70vw;
-  margin: auto;
+form{
+  width: auto;
+  margin: 2rem 1.5rem;
+  background-color:rgba(158, 201, 243, 0.788);
+  padding-bottom: 1.5rem;
 }
 
-.form_login fieldset, .form_register fieldset {
+form p {
+  padding: 1rem;
+}
+
+fieldset {
   border-radius: 5px;
-  box-shadow: 3px 3px 5px #b0aeae;
+  border-color: green;
+  box-shadow: 3px 3px 5px rgba(0, 128, 0, 0.697);
   background-color:rgba(158, 201, 243, 0.788);
+  margin: 1rem;
 }
 
 label, input{
@@ -269,10 +277,15 @@ label, input{
 
 input {
   width: 90%;
-  background-color: #ccc;
+  font-size: 1.2rem;
+  background-color: #f0e9e9;
 }
 
-.loginBtn, .registerBtn {
+label, select{
+  font-size: 1.2rem;
+}
+
+button {
   width: 90%;
   padding: 0.5rem;
   margin-top: 0.6rem;
@@ -285,7 +298,7 @@ input {
   transition: 0.4s;
 }
 
-.loginBtn:hover, .registerBtn:hover {
+.button:hover {
   background-color: rgb(38, 140, 241);
 }
 
@@ -319,12 +332,43 @@ input {
   font-style: italic;
 }
 
-input:required:invalid, input:focus:invalid {
-  border-color: #e21111;
+input:focus:invalid {
+  background-color: #f67070;
 }
 
-input:required:valid {
-  border-color: green;
+input:valid {
+  background-color: rgb(68, 159, 68);
+}
+
+/* Management */
+.management {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.management a {
+  padding: 0.5rem;
+}
+
+.management h1, .addClassification h1, .form_addInv h1{
+  margin: 0.5rem;
+  color: green;
+  font-size: 1.5rem;
+}
+
+/* Add Classification */
+.addClassification fieldset p {
+  padding: 0.1rem;
+}
+
+.addClassification h1 {
+margin-top: 2rem;
+}
+
+/* Add Inventory */
+textarea {
+  width: 210px;
 }
 
 /******* Laptop ********/
@@ -488,14 +532,16 @@ input:required:valid {
   }
 
   /* Login  */
-  .login h1, .title_register {
-  font-size: 1.8rem;
-  margin-left: 1.5rem;
-  }
+form {
+  max-width: 600px ;
+  margin: auto;
+}
 
-  .form_login, .form_register {
-    width: 50vw;
-  }
+ /* Add Inventory  */
+ textarea{
+  width: 400px;
+ }
+
 
 }
 

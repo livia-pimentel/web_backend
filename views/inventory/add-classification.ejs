@@ -1,4 +1,3 @@
-<h1><%= (title) %></h1>
 <%- messages() %> 
 <% if (errors) { %>
     <ul class="notice">
@@ -7,12 +6,12 @@
   <%  }) %>
    </ul>
  <% } %>
-
- <form action="/inv/add-classification" method="post" id="form_addClassification" class="form_addClassification">
+ <form action="/inv/add-classification" method="post" id="form_addClassification" class="addClassification">
+    <h1><%= (title) %></h1>
     <p>ALL FIELDS ARE REQUIRED.</p>
     <fieldset>
         <p>Classification Name</p>
-        <span>NAME MUST BE ALPHABETIC CHARACTERS ONLY.</span>
+        <label for="addClassification" >NAME MUST BE ALPHABETIC CHARACTERS ONLY.</label>
         <input type="text" name="classification_name" id="addClassification" pattern="[A-Za-z]{3,}" required value="<%= locals.classification_name %>">
         <button type="submit" class="addClassificationBtn">Add Classification</button>
     </fieldset>
