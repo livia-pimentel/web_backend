@@ -16,7 +16,7 @@ router.get("/detail/:inv_id", utilities.handleErrors(invController.buildByItemDe
 router.get("/throwerror", utilities.handleErrors(invController.buildError));
 
 // Route to management
-router.get("/management", utilities.handleErrors(invController.buildManagement));
+router.get("/", utilities.handleErrors(invController.buildManagement));
 
 
 // Route to Add Classification
