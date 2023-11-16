@@ -17,6 +17,7 @@ router.get("/throwerror", utilities.handleErrors(invController.buildError));
 
 // Route to management
 router.get("/", utilities.handleErrors(invController.buildManagement));
+router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
 
 
 // Route to Add Classification

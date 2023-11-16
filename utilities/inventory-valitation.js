@@ -30,7 +30,7 @@ validate.invRules = () => {
         .withMessage("Please provide a model, minimum of 3 characters"),
 
         // Description is required
-        body("inv_descripton")
+        body("inv_description")
         .trim()
         .isLength({ min: 5 })
         .withMessage("Please provide a description."), // on error this message is sent.
@@ -88,7 +88,7 @@ validate.invRules = () => {
  * ***************************** */
 validate.checkCarData = async (req, res, next) => {
   let classificationList = await utilities.buildClassificationList()
-  const { classification_id, inv_make, inv_model, inv_descripton, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color } = req.body
+  const { classification_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color } = req.body
   let errors = []
   errors = validationResult(req)
   if (!errors.isEmpty()) {
@@ -101,7 +101,7 @@ validate.checkCarData = async (req, res, next) => {
       classification_id,
       inv_make,
       inv_model,
-      inv_descripton,
+      inv_description,
       inv_image, 
       inv_thumbnail,
       inv_price,
