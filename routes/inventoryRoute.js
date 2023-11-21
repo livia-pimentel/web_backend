@@ -46,4 +46,15 @@ router.post(
     utilities.handleErrors(invController.addVehicle)
 )
 
+// Route to Edit Vehicle
+router.get("/edit/:inv_id", utilities.handleErrors(invController.buildEditCar));
+
+//Route POST "Update Vehicle"
+router.post(
+    "/edit",
+    validate.invRules(),
+    validate.checkEditCar,
+    utilities.handleErrors(invController.buildEditCar)
+)
+
 module.exports = router;

@@ -8,7 +8,7 @@
 <% } %>
 
 
-<form action="/inv/add-inventory" method="post" id="form_addInv" class="form_addInv">
+<form action="/inv/edit" method="post" id="form_upInv" class="form_upInv">
     <h1><%= (title) %></h1>
     <p>ALL FIELDS ARE REQUIRED.</p>
     <fieldset>
@@ -17,13 +17,13 @@
         <label for="inv_make">Make</label>
         <input type="text" id="inv_make" name="inv_make" pattern="[A-Za-z]{3,}" required value="<%= locals.inv_make %>" placeholder="Min of 3 characters" >
         <label for="inv_model">Model</label>
-        <input type="text" id="inv_model" name="inv_model" required value="<%= locals.inv_model %>" pattern="[A-Za-z0-9]{3,}" placeholder="Min of 3 characters">
+        <input type="text" id="inv_model" name="inv_model" required pattern="[A-Za-z0-9]{3,}" value="<%= locals.inv_model %>" placeholder="Min of 3 characters">
         <label for="inv_description">Description</label>
         <textarea name="inv_description" id="inv_description" cols="30" rows="10" required><%=locals.inv_description %></textarea>
         <label for="inv_image">Image Path</label>
-        <input type="text" id="inv_image" name="inv_image" required value="/images/vehicles/no-image.png">
+        <input type="text" id="inv_image" name="inv_image" required value="<%= locals.inv_image %>">
         <label for="inv_thumbnail">Thumbnail Path</label>
-        <input type="text" id="inv_thumbnail" name="inv_thumbnail" required value="/images/vehicles/no-image-tn.png">
+        <input type="text" id="inv_thumbnail" name="inv_thumbnail" required value="<%= locals.inv_thumbnail %>">
         <label for="inv_price">Price</label>
         <input type="text" id="inv_price" name="inv_price" required value="<%= locals.inv_price %>" pattern="^\d+(\.\d+)?$" placeholder="decimal or integer">
         <label for="inv_year">Year</label>
@@ -32,6 +32,6 @@
         <input type="number" id="inv_miles" name="inv_miles" required value="<%= locals.inv_miles %>" placeholder="digits only">
         <label for="inv_color">Color</label>
         <input type="text" id="inv_color" name="inv_color" required value="<%= locals.inv_color %>">
-        <button type="submit" class="addInvBtn">Add New Car</button>
+        <button type="submit">Update Vehicle</button>
     </fieldset>
  </form>

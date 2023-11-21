@@ -86,12 +86,12 @@ invCont.buildError = async function (req, res, next) {
 invCont.buildManagement = async function (req, res, next) {
   try {
     let nav = await utilities.getNav()
-    const classificationSelect = await utilities.buildClassificationList()
+    const classificationList = await utilities.buildClassificationList()
     res.render("./inventory/management", {
       title: "Vehicles Management",
       nav,
       errors: null,
-      classificationSelect,
+      classificationList,
     })
   } catch(error) {
     console.error("buildManagement error: " + error);
@@ -221,6 +221,45 @@ invCont.getInventoryJSON = async (req, res, next) => {
     return res.json(invData)
   } else {
     next(new Error("No data returned"))
+  }
+}
+
+/* ***************************
+ *  Build edit view
+ * ************************** */
+invCont.buildEditCar = async function (req, res, next) {
+  const inv_id = req.params.inv_id
+  let nav = await utilities.getNav()
+  const data = await invModel.getInventoryByInvId(inv_id)
+  // console.log("Data from the database: ", data[0]);
+  const classificationList= await utilities.buildClassificationList(data[0].classification_id)
+  const dataName = `${data[0].inv_make} ${data[0].inv_model}`
+  
+  try {
+    res.render("./inventory/edit", {
+      title: "Edit " + dataName,
+      nav,
+      classificationList: classificationList,
+      errors: null,
+      data: data[0].inv_id,
+      inv_make: data[0].inv_make,
+      inv_model: data[0].inv_model,
+      inv_year: data[0].inv_year,
+      inv_description: data[0].inv_description,
+      inv_image: data[0].inv_image,
+      inv_thumbnail: data[0].inv_thumbnail,
+      inv_price: data[0].inv_price,
+      inv_miles: data[0].inv_miles,
+      inv_color: data[0].inv_color,
+      classification_id: data[0].classification_id
+    })
+  } catch(error) {
+    console.error("buildEditCar error: " + error);
+    res.render("errors/error", {
+      title: "Server Error",
+      message: "There was a server error.",
+      nav: await utilities.getNav(),
+    });
   }
 }
 
