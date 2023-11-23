@@ -18,7 +18,7 @@ validate.invRules = () => {
         body("inv_make")
           .trim()
           .isAlpha()
-          .isLength({ min: 3 })
+          .isLength({ min: 1 })
           .customSanitizer(value => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()) //Convert the first letter to uppercase and the last letter to lowercase
           .withMessage("Please provide a maker, minimum of 3 characters "), // on error this message is sent.
     

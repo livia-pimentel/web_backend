@@ -328,16 +328,16 @@ button {
 }
 
 .notice {
-  color: #e21111;
+  color: rgba(226, 17, 17, 0.784);
   font-style: italic;
 }
 
 input:focus:invalid {
-  background-color: #f67070;
+  background-color: #e47d7d;
 }
 
 input:valid {
-  background-color: rgb(68, 159, 68);
+  background-color: rgba(39, 234, 39, 0.645);
 }
 
 /* Management */

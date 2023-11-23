@@ -189,7 +189,7 @@ invCont.addVehicle = async function  (req, res) {
   const addVehicleResult = await invModel.addVehicle(
     classification_id, inv_make, inv_model, inv_descripton, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color
   )
-  console.log(addVehicleResult)
+  // console.log(addVehicleResult)
   if (addVehicleResult) {
     req.flash(
       "notice",
@@ -241,7 +241,7 @@ invCont.buildEditCar = async function (req, res, next) {
       nav,
       classificationList: classificationList,
       errors: null,
-      data: data[0].inv_id,
+      inv_id: data[0].inv_id,
       inv_make: data[0].inv_make,
       inv_model: data[0].inv_model,
       inv_year: data[0].inv_year,
@@ -260,6 +260,40 @@ invCont.buildEditCar = async function (req, res, next) {
       message: "There was a server error.",
       nav: await utilities.getNav(),
     });
+  }
+}
+
+/* ****************************************
+*  Process Update Vehicle
+* *************************************** */
+invCont.updateVehicle = async function  (req, res) {
+  let nav = await utilities.getNav()
+  let classificationList = await utilities.buildClassificationList()
+  const { classification_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color, inv_id } = req.body
+  // console.log('description from controller', inv_description)
+  const updateVehicleResult = await invModel.updateVehicle(
+    classification_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color, inv_id
+  )
+  // console.log(updateVehicleResult)
+  if (updateVehicleResult) {
+    req.flash(
+      "notice",
+      `The ${inv_make} ${inv_model} was successfully update.`,
+    )
+    res.status(201).render("./inventory/management", {
+      title: "Vehicles Management",
+      nav,
+      errors: null,
+      classificationList
+    })
+  } else {
+    req.flash("notice", "Sorry, the add vehicle failed.")
+    res.status(501).render("./inventory/edit", {
+      title: "Edit ",
+      nav,
+      errors: null,
+      classificationList
+    })
   }
 }
 

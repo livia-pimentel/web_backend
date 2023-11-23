@@ -16,7 +16,7 @@ validateClass.classificationRules = () => {
       .withMessage("Provide a correct classification name") 
       .custom(async (classification_name) => {
         const classificationExists = await invModel.checkExistingClass(classification_name);
-        console.log('Classification Exist Content', classificationExists);
+        // console.log('Classification Exist Content', classificationExists);
         if (classificationExists) {
           throw new Error("Classification exists!");
         }

@@ -54,7 +54,7 @@ router.post(
     "/edit",
     validate.invRules(),
     validate.checkEditCar,
-    utilities.handleErrors(invController.buildEditCar)
+    utilities.handleErrors(invController.updateVehicle)
 )
 
 module.exports = router;
