@@ -15,9 +15,9 @@
         <label for="classification_id">Classification</label>
         <%- classificationList %>
         <label for="inv_make">Make</label>
-        <input type="text" id="inv_make" name="inv_make" pattern="^[A-Za-z\s]{1,20}$"required value="<%= locals.inv_make %>" placeholder="Min of 3 characters" >
+        <input type="text" id="inv_make" name="inv_make" pattern="^[A-Za-z\s]{2,20}$"required value="<%= locals.inv_make %>" placeholder="Min of 3 characters" >
         <label for="inv_model">Model</label>
-        <input type="text" id="inv_model" name="inv_model" required pattern="^[A-Za-z0-9\s]{3,20}$" value="<%= locals.inv_model %>" placeholder="Min of 3 characters">
+        <input type="text" id="inv_model" name="inv_model" required pattern="^[A-Za-z0-9\s]{2,20}$" value="<%= locals.inv_model %>" placeholder="Min of 3 characters">
         <label for="inv_description">Description</label>
         <textarea name="inv_description" id="inv_description" cols="30" rows="10" required><%=locals.inv_description %></textarea>
         <label for="inv_image">Image Path</label>

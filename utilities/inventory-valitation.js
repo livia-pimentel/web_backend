@@ -17,22 +17,27 @@ validate.invRules = () => {
         // maker is required and must be string
         body("inv_make")
           .trim()
-          .isAlpha()
-          .isLength({ min: 1 })
-          .customSanitizer(value => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()) //Convert the first letter to uppercase and the last letter to lowercase
-          .withMessage("Please provide a maker, minimum of 3 characters "), // on error this message is sent.
+          .isLength({ min: 2 })
+          .customSanitizer(value => {
+            // Capitalize the first letter of each word
+            return value.replace(/\b\w/g, (match) => match.toUpperCase());
+        })
+          .withMessage("Please provide a maker, minimum of 2 characters "), // on error this message is sent.
     
         // model is required and cannot already exist in the DB
         body("inv_model")
         .trim()
-        .isLength({ min: 1 })
-        .customSanitizer(value => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()) //Convert the first letter to uppercase and the last letter to lowercase
-        .withMessage("Please provide a model, minimum of 3 characters"),
+        .isLength({ min: 2 })
+        .customSanitizer(value => {
+          // Capitalize the first letter of each word
+          return value.replace(/\b\w/g, (match) => match.toUpperCase());
+      })
+        .withMessage("Please provide a model, minimum of 2 characters"),
 
         // Description is required
         body("inv_description")
         .trim()
-        .isLength({ min: 5 })
+        .isLength({ min: 3 })
         .withMessage("Please provide a description."), // on error this message is sent.
 
         // Image is required
@@ -144,5 +149,22 @@ validate.checkEditCar = async (req, res, next) => {
   }
   next()
 }
+
+/* ******************************
+ * Check data and return errors or continue to Delete
+ * ***************************** */
+// validate.checkDeleteCar = async (req, res, next) => {
+//   const idCar = inv_id;
+//   let errors = []
+//   errors = validationResult(req)
+//   if (!errors.isEmpty()) {
+//     let nav = await utilities.getNav()
+//     res.render("./inventory/delete", {
+//       errors,
+//       })
+//     return
+//   }
+//   next()
+// }
  
   module.exports = validate

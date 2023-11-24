@@ -185,9 +185,10 @@ invCont.addClassification = async function  (req, res) {
 invCont.addVehicle = async function  (req, res) {
   let nav = await utilities.getNav()
   let classificationList = await utilities.buildClassificationList()
-  const { classification_id, inv_make, inv_model, inv_descripton, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color } = req.body
+  const { classification_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color } = req.body
+  // console.log('variables for new vehicle', classification_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color )
   const addVehicleResult = await invModel.addVehicle(
-    classification_id, inv_make, inv_model, inv_descripton, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color
+    classification_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color
   )
   // console.log(addVehicleResult)
   if (addVehicleResult) {
@@ -199,6 +200,7 @@ invCont.addVehicle = async function  (req, res) {
       title: "Vehicles Management",
       nav,
       errors: null,
+      classificationList
     })
   } else {
     req.flash("notice", "Sorry, the add vehicle failed.")
@@ -294,6 +296,55 @@ invCont.updateVehicle = async function  (req, res) {
       errors: null,
       classificationList
     })
+  }
+}
+
+/* ***************************
+ *  Build Delete view
+ * ************************** */
+invCont.buildDeleteCar = async function (req, res, next) {
+  const inv_id = req.params.inv_id
+  let nav = await utilities.getNav()
+  const data = await invModel.getInventoryByInvId(inv_id)
+  const dataName = `${data[0].inv_make} ${data[0].inv_model}`
+  try {
+    res.render("./inventory/delete", {
+      title: "Delete " + dataName,
+      nav,
+      errors: null,
+      inv_id: data[0].inv_id,
+      inv_make: data[0].inv_make,
+      inv_model: data[0].inv_model,
+      inv_year: data[0].inv_year,
+      inv_price: data[0].inv_price,
+    })
+  } catch(error) {
+    console.error("buildDeleteCar error: " + error);
+    res.render("errors/error", {
+      title: "Server Error",
+      message: "There was a server error.",
+      nav: await utilities.getNav(),
+    });
+  }
+}
+
+/* ****************************************
+*  Process Delete Vehicle
+* *************************************** */
+invCont.deleteVehicle = async function  (req, res) {
+  let nav = await utilities.getNav()
+  const inv_id = parseInt(req.body.inv_id)
+  const deleteResult = await invModel.deleteVehicle(inv_id)
+
+  if (deleteResult) {
+    req.flash(
+      "notice",
+      `The deletion was successfully.`,
+      res.redirect('/inv/')
+    )
+  } else {
+    req.flash("notice", "Sorry, the delete failed.")
+    res.redirect('/inv/delete/')
   }
 }
 
