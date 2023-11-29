@@ -333,6 +333,7 @@ invCont.buildDeleteCar = async function (req, res, next) {
 * *************************************** */
 invCont.deleteVehicle = async function  (req, res) {
   let nav = await utilities.getNav()
+  let classificationList = await utilities.buildClassificationList()
   const inv_id = parseInt(req.body.inv_id)
   const deleteResult = await invModel.deleteVehicle(inv_id)
 
@@ -340,11 +341,20 @@ invCont.deleteVehicle = async function  (req, res) {
     req.flash(
       "notice",
       `The deletion was successfully.`,
-      res.redirect('/inv/')
     )
+    res.status(201).render("./inventory/management", {
+      title: "Vehicles Management",
+      nav,
+      errors: null,
+      classificationList
+    })
   } else {
     req.flash("notice", "Sorry, the delete failed.")
-    res.redirect('/inv/delete/')
+    res.status(501).render("./inventory/delete/", {
+      title: "Delete",
+      nav,
+      errors: null
+    })
   }
 }
 

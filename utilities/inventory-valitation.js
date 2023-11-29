@@ -11,7 +11,7 @@ validate.invRules = () => {
         // classification is required
         body("classification_id")
           .trim()
-          .isLength({ min: 1 })
+          .isLength({ min: 2 })
           .withMessage("Please provide a classification."), // on error this message is sent.
     
         // maker is required and must be string
@@ -150,21 +150,4 @@ validate.checkEditCar = async (req, res, next) => {
   next()
 }
 
-/* ******************************
- * Check data and return errors or continue to Delete
- * ***************************** */
-// validate.checkDeleteCar = async (req, res, next) => {
-//   const idCar = inv_id;
-//   let errors = []
-//   errors = validationResult(req)
-//   if (!errors.isEmpty()) {
-//     let nav = await utilities.getNav()
-//     res.render("./inventory/delete", {
-//       errors,
-//       })
-//     return
-//   }
-//   next()
-// }
- 
   module.exports = validate
