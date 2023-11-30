@@ -13,3 +13,9 @@ function togglePassword() {
       passwordBtn.textContent = "Show Password";
     }
   }
+
+  function loginLink() {
+    let login = document.querySelector("#login-link")
+  }
+
+  

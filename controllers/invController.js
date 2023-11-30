@@ -289,7 +289,7 @@ invCont.updateVehicle = async function  (req, res) {
       classificationList
     })
   } else {
-    req.flash("notice", "Sorry, the add vehicle failed.")
+    req.flash("notice", "Sorry, the update vehicle failed.")
     res.status(501).render("./inventory/edit", {
       title: "Edit ",
       nav,

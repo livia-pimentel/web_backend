@@ -22,19 +22,6 @@ validate.registationRules = () => {
         .customSanitizer(value => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()) //Convert the first letter to uppercase and the last letter to lowercase
         .withMessage("Please provide a last name."), // on error this message is sent.
   
-      // valid email is required and cannot already exist in the DB
-      // body("account_email")
-      // .trim()
-      // .isEmail()
-      // .normalizeEmail() // refer to validator.js docs
-      // .customSanitizer(value => value.toLowerCase()) //Convert to lowercase
-      // .withMessage("A valid email is required.")
-      // .custom(async (account_email) => {
-      //   const emailExists = await accountModel.checkExistingEmail(account_email)
-      //   if (emailExists) {
-      //     throw new Error ("Email exists. Please log in or use different email")
-      //   }
-      // }),
       body("account_email")
       .trim()
       .isEmail()
@@ -140,6 +127,76 @@ validate.checkLoginData = async (req, res, next) => {
     return
   }
   next()
+}
+
+/* ******************************
+ * Check data and return errors or continue to update account
+ * ***************************** */
+validate.checkAccountData = async (req, res, next) => {
+  const { account_firstname, account_lastname, account_email, account_password} = req.body
+  let errors = []
+  errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+    res.render("account/edit-account", {
+      errors,
+      title: "Edit Account",
+      nav,
+      account_firstname,
+      account_lastname,
+      account_email,
+      account_password
+    })
+    return
+  }
+  next()
+}
+
+/*  **********************************
+ *  Update Account Validation Rules
+ * ********************************* */
+validate.updateRules = () => {
+  return [
+    // firstname is required and must be string
+    body("account_firstname")
+      .trim()
+      .isLength({ min: 1 })
+      .customSanitizer(value => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()) //Convert the first letter to uppercase and the last letter to lowercase
+      .withMessage("Please provide a first name."), // on error this message is sent.
+
+    // lastname is required and must be string
+    body("account_lastname")
+      .trim()
+      .isLength({ min: 2 })
+      .customSanitizer(value => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()) //Convert the first letter to uppercase and the last letter to lowercase
+      .withMessage("Please provide a last name."), // on error this message is sent.
+
+    body("account_email")
+    .trim()
+    .isEmail()
+    .normalizeEmail() // refer to validator.js docs
+    .custom(async (account_email, {req}) => {
+      const account_id = req.body.account_id
+      const account = await accountModel.getAccountById(account_id)
+      // Check if submitted email is same as existing
+      if (account_email != account.account_email) {
+      // No - Check if email exists in table
+        const updateEmail = await accountModel.updateAccount(account_email)      
+  }
+}),
+
+    // password is required and must be strong password
+    body("account_password")
+      .trim()
+      .isStrongPassword({
+        minLength: 12,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+      })
+      .withMessage("Password does not meet requirements."),
+  ]
 }
   
   module.exports = validate

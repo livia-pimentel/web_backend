@@ -33,7 +33,18 @@ routerAccount.post(
     utilities.handleErrors(accountController.accountLogin)
   )
 
-//Route Error
-// routerAccount.get("/throwerror");
+//Route "Edit Account" 
+routerAccount.get("/edit-account/:account_id", utilities.handleErrors(accountController.buildEditAccount))
+
+//Route POST "Edit Account"
+routerAccount.post(
+  "/edit-account",
+  // regValidate.updateRules(),
+  regValidate.checkAccountData,
+  utilities.handleErrors(accountController.updateAccount)
+)
+
+//Route "Logout" 
+routerAccount.get("/", utilities.handleErrors(accountController.logoutAccount))
 
 module.exports = routerAccount

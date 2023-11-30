@@ -97,6 +97,13 @@ async function accountLogin(req, res) {
    delete accountData.account_password
    const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
    res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
+   
+       // Defina as informações do usuário na sessão
+    //    req.session.user = {
+    //     account_id: accountData.account_id,  
+    //     account_firstname: accountData.account_firstname,
+    // };
+
    return res.redirect("/account/")
    }
   } catch (error) {
@@ -125,5 +132,109 @@ async function accountLogin(req, res) {
   }
 }
 
+/* ****************************************
+*  Deliver edit account view
+* *************************************** */
+async function buildEditAccount(req, res, next) {
+  const account_id = req.params.account_id
+  let nav = await utilities.getNav()
+  const data = await account_model.getAccountById(account_id)
+  console.log("Data from the database: ", data);
+  try {
+    res.render("./account/edit-account", {
+      title: "Edit Account ",
+      nav,
+      errors: null,
+      data
+  })
+} catch(error) {
+  console.error("buildEditAccount error: " + error);
+  res.render("errors/error", {
+    title: "Server Error",
+    message: "There was a server error.",
+    nav: await utilities.getNav(),
+  });
+}
+}
+
+/* ****************************************
+*  Process Update Account
+* *************************************** */
+async function updateAccount(req, res) {
+  let nav = await utilities.getNav()
+  const { account_id, account_firstname, account_lastname, account_email, account_password} = req.body
+
+   // Verifica se uma nova senha foi fornecida
+   const isPasswordProvided = typeof account_password === 'string' && account_password.length > 0;
   
-module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildManagementLogin}
+  try{
+    let updateAccountResult;
+
+    if (isPasswordProvided) {
+      updateAccountResult = await account_model.updateAccountWithPassword(account_id, account_firstname, account_lastname, account_email, account_password);
+    } else {
+      updateAccountResult = await account_model.updateAccountWithoutPassword(account_id, account_firstname, account_lastname, account_email);
+    }
+
+    console.log("Result UpdateAccountResult", updateAccountResult);
+
+    if (updateAccountResult) {
+      req.flash("notice", "The account was successfully updated.");
+      res.status(201).render("./account/management-login", {
+        title: "Account Management",
+        nav,
+        errors: null,
+      });
+  } else {
+    req.flash("notice", "Sorry, the update account failed.");
+    res.status(501).render("./account/edit-account", {
+      title: "Edit Account",
+      nav,
+      errors: null,
+    });
+  }
+} catch (error) {
+  console.error("Error updateAccount:", error);
+  req.flash("notice", "An error occurred during the update.");
+  res.status(500).render("./account/edit-account", {
+    title: "Edit Account",
+    nav,
+    errors: null,
+  });
+}
+}
+
+//   const updateAccountResult = await account_model.updateAccount (account_id, account_firstname, account_lastname, account_email, account_password)
+//   console.log("Result UpdateAccountResult", updateAccountResult)
+//   if (updateAccountResult) {
+//     req.flash(
+//       "notice",
+//       `The was successfully update.`,
+//     )
+//     res.status(201).render("./account/management-login", {
+//       title: "Account Management",
+//       nav,
+//       errors: null,
+//     })
+//   } else {
+//     req.flash("notice", "Sorry, the update account failed.")
+//     res.status(501).render("./account/edit-account", {
+//       title: "Edit Account",
+//       nav,
+//       errors: null,
+//     })
+//   }
+// } 
+
+/* ****************************************
+*  Process Logout Account
+* *************************************** */
+async function logoutAccount(req, res, next) {
+  req.session.destroy(); // Destruir a sessão
+  res.clearCookie("jwt"); // Limpar o cookie JWT
+  res.redirect("/")
+}
+
+
+
+module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildManagementLogin, buildEditAccount, updateAccount, logoutAccount}
