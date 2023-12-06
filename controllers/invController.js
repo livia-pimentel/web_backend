@@ -153,6 +153,7 @@ invCont.buildAddNewCar = async function (req, res, next) {
 *  Process Add Classification
 * *************************************** */
 invCont.addClassification = async function  (req, res) {
+  let classificationList = await utilities.buildClassificationList()
   const { classification_name } = req.body
   const addClassResult = await invModel.addClassification(
     classification_name
@@ -168,6 +169,7 @@ invCont.addClassification = async function  (req, res) {
       title: "Vehicles Management",
       nav,
       errors: null,
+      classificationList,
     })
   } else {
     req.flash("notice", "Sorry, the add classification failed.")
@@ -175,6 +177,7 @@ invCont.addClassification = async function  (req, res) {
       title: "Add New Classification",
       nav,
       errors: null,
+      classificationList,
     })
   }
 }

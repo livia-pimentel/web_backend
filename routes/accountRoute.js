@@ -39,12 +39,19 @@ routerAccount.get("/edit-account/:account_id", utilities.handleErrors(accountCon
 //Route POST "Edit Account"
 routerAccount.post(
   "/edit-account",
-  // regValidate.updateRules(),
-  regValidate.checkAccountData,
+  regValidate.updateAccountRules(),
   utilities.handleErrors(accountController.updateAccount)
 )
 
+//Route POST "Edit Password"
+routerAccount.post(
+  "/edit-password",
+  // regValidate.updatePasswordRules(),
+  regValidate.checkPasswordData,
+  utilities.handleErrors(accountController.updatePassword)
+)
+
 //Route "Logout" 
-routerAccount.get("/", utilities.handleErrors(accountController.logoutAccount))
+routerAccount.get("/logout", utilities.handleErrors(accountController.logoutAccount))
 
 module.exports = routerAccount

@@ -130,10 +130,10 @@ validate.checkLoginData = async (req, res, next) => {
 }
 
 /* ******************************
- * Check data and return errors or continue to update account
+ * Check data and return errors or continue to update password
  * ***************************** */
-validate.checkAccountData = async (req, res, next) => {
-  const { account_firstname, account_lastname, account_email, account_password} = req.body
+validate.checkPasswordData = async (req, res, next) => {
+  const { account_id, account_password} = req.body
   let errors = []
   errors = validationResult(req)
   if (!errors.isEmpty()) {
@@ -142,9 +142,7 @@ validate.checkAccountData = async (req, res, next) => {
       errors,
       title: "Edit Account",
       nav,
-      account_firstname,
-      account_lastname,
-      account_email,
+      account_id,
       account_password
     })
     return
@@ -153,11 +151,31 @@ validate.checkAccountData = async (req, res, next) => {
 }
 
 /*  **********************************
+ *  Update Password Validation Rules
+ * ********************************* */
+validate.updatePasswordRules = () => {
+  return [
+    // password is required and must be strong password
+    body("account_password")
+      .trim()
+      .isStrongPassword({
+        minLength: 12,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+      })
+      .withMessage("Password does not meet requirements."),
+  ]
+}
+
+
+/*  **********************************
  *  Update Account Validation Rules
  * ********************************* */
-validate.updateRules = () => {
+validate.updateAccountRules = () => {
   return [
-    // firstname is required and must be string
+        // firstname is required and must be string
     body("account_firstname")
       .trim()
       .isLength({ min: 1 })
@@ -181,22 +199,10 @@ validate.updateRules = () => {
       // Check if submitted email is same as existing
       if (account_email != account.account_email) {
       // No - Check if email exists in table
-        const updateEmail = await accountModel.updateAccount(account_email)      
+        const updateEmail = await accountModel.updateAccountWithoutPassword(account_email)      
   }
 }),
-
-    // password is required and must be strong password
-    body("account_password")
-      .trim()
-      .isStrongPassword({
-        minLength: 12,
-        minLowercase: 1,
-        minUppercase: 1,
-        minNumbers: 1,
-        minSymbols: 1,
-      })
-      .withMessage("Password does not meet requirements."),
   ]
-}
+} 
   
   module.exports = validate

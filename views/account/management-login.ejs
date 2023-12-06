@@ -1,7 +1,13 @@
 <%- messages() %> 
 <section class="management-login">
     <h1><%= (title) %></h1>
-    <h2>Welcome New</h2>
+    <h2>Welcome <%= locals.accountData.account_firstname %></h2>
     <p>You're logged in.</p>
-    <a href="/account/edit-account/<%= locals.accountData.account_id %>">Edit Account Information</a>
+    <% if (locals.accountData.account_id && locals.accountData.account_type == "Admin" || locals.accountData.account_type == "Employee") { %>
+        <a href="/account/edit-account/<%= locals.accountData.account_id %>">Edit Account Information</a>
+        <h2>Inventory Management</h2>
+        <a href="/inv/">Manage Inventory</a>
+    <% } else { %>
+        <a href="/account/edit-account/<%= locals.accountData.account_id %>">Edit Account Information</a>
+        <% } %>
 </section>

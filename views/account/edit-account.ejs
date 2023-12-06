@@ -21,6 +21,8 @@
             <input type="hidden" name="account_id" <% if(locals.accountData.account_id) { %> value="<%= locals.accountData.account_id %>" 
             <% } %>>
     </fieldset>
+</form>
+<form action="/account/edit-password" method="post">
     <fieldset>
         <h1>Update Password</h1>
         <span>Passwords must be at least 12 characters and contain at least 1 number, 1 capital letter and 1 special character</span> 
@@ -33,4 +35,4 @@
         <input type="hidden" name="account_password" <% if(locals.accountData.account_password) { %> value="<%= locals.accountData.account_password %>" 
         <% } %>>
     </fieldset>
- </form>
+</form>

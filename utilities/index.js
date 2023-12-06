@@ -129,25 +129,53 @@ Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)
 /* ****************************************
 * Middleware to check token validity
 **************************************** */
-Util.checkJWTToken = (req, res, next) => {
-  if (req.cookies.jwt) {
-   jwt.verify(
-    req.cookies.jwt,
-    process.env.ACCESS_TOKEN_SECRET,
-    function (err, accountData) {
-     if (err) {
-      req.flash("Please log in")
-      res.clearCookie("jwt")
-      return res.redirect("/account/login")
-     }
-     res.locals.accountData = accountData
-     res.locals.loggedin = 1
-     next()
-    })
-  } else {
-   next()
+// Util.checkJWTToken = (req, res, next) => {
+//   if (req.cookies.jwt) {
+//    jwt.verify(
+//     req.cookies.jwt,
+//     process.env.ACCESS_TOKEN_SECRET,
+//     function (err, accountData) {
+//      if (err) {
+//       req.flash("Please log in")
+//       res.clearCookie("jwt")
+//       return res.redirect("/account/login")
+//      }
+//      res.locals.accountData = accountData
+//      res.locals.loggedin = 1
+//      next()
+//     })
+//   } else {
+//    next()
+//   }
+//  }
+
+Util.checkJWTToken = async (req, res, next) => {
+  if (res.locals.account_id) {
+    const accountData = await account_model.getAccountById(res.locals.account_id);
+    res.locals.accountData = accountData;
+    res.locals.loggedin = 1;
+  } else if (req.cookies.jwt) {
+    jwt.verify(
+      req.cookies.jwt,
+      process.env.ACCESS_TOKEN_SECRET,
+      function (err, accountData) {
+        if (err) {
+          req.flash("Please log in");
+          res.clearCookie("jwt");
+          return res.redirect("/account/login");
+        }
+
+        // Assign account data to locations and session
+        res.locals.accountData = accountData;
+        res.locals.loggedin = 1;
+
+        // Update the session with the latest data
+        req.session.accountData = accountData;
+      }
+    );
   }
- }
+  next();
+};
 
  /* ****************************************
  *  Check Login
