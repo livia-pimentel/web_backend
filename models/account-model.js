@@ -37,13 +37,13 @@ async function checkPassword(account_email, account_password) {
     if (result.rowCount === 1) {
       const storedPassword = result.rows[0].account_password;
 
-      // Compare a senha fornecida com a senha armazenada no banco de dados
+      // Compare the password provided with the password stored in the database
       const isPasswordCorrect = await bcrypt.compare(account_password, storedPassword);
 
       return isPasswordCorrect;
     }
 
-    return false; // Se o e-mail não existe
+    return false; // If the email does not exist
   } catch (error) {
     throw new Error(error.message);
   }
