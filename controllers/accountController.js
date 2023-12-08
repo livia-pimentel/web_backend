@@ -59,7 +59,7 @@ async function registerAccount(req, res) {
   if (regResult) {
     req.flash(
       "notice",
-      `Congratulations, you\'re registered ${account_firstname}. Please log in.`
+      `Congratulations, you\'re registered ${account_firstname}. Please login.`
     )
     res.status(201).render("account/login", {
       title: "Login",
@@ -126,7 +126,7 @@ async function accountLogin(req, res) {
 }
 
 /* ****************************************
-*  Deliver edit account view
+*  Deliver update view
 * *************************************** */
 async function buildEditAccount(req, res, next) {
   const account_id = req.params.account_id
@@ -134,7 +134,7 @@ async function buildEditAccount(req, res, next) {
   const data = await account_model.getAccountById(account_id)
   // console.log("Data from the database: ", data);
   try {
-    res.render("./account/edit-account", {
+    res.render("./account/update", {
       title: "Edit Account ",
       nav,
       errors: null,
@@ -158,7 +158,7 @@ async function updateAccount(req, res) {
   const {account_id, account_firstname, account_lastname, account_email} = req.body
   try{
     let updateAccountResult;
-      updateAccountResult = await account_model.updateAccountWithoutPassword(account_id, account_firstname, account_lastname, account_email);
+      updateAccountResult = await account_model.updateAccountInformation(account_id, account_firstname, account_lastname, account_email);
     if (updateAccountResult) {
       // Assign account data to locations
       res.locals.accountData = updateAccountResult;
@@ -169,7 +169,7 @@ async function updateAccount(req, res) {
       res.status(201).redirect("/account/");
   } else {
     req.flash("notice", "Sorry, the update account failed.");
-    res.status(501).redirect("./account/edit-account", {
+    res.status(501).redirect("./account/update", {
       title: "Edit Account",
       nav,
       errors: null,
@@ -178,7 +178,7 @@ async function updateAccount(req, res) {
 } catch (error) {
   console.error("Error updateAccount:", error);
   req.flash("notice", "An error occurred during the update.");
-  res.status(500).render("./account/edit-account", {
+  res.status(500).render("./account/update", {
     title: "Edit Account",
     nav,
     errors: null,
@@ -192,12 +192,14 @@ async function updateAccount(req, res) {
 async function updatePassword(req, res) {
   let nav = await utilities.getNav()
   const {account_id, account_password} = req.body
-  const updateAccountResult = await account_model.updateAccountPassword(account_id, account_password);
-  console.log("Information updateAccountResult: ", updateAccountResult)
+  // console.log("id and password ", account_id, account_password)
+  let hashedPassword = await bcrypt.hashSync(account_password, 10)
+  const updateAccountResult = await account_model.updatePassword(account_id, hashedPassword);
+  // console.log("Information updateAccountResult: ", updateAccountResult)
+
 
   try{
     if (updateAccountResult) {
-      const hashedPassword = await bcrypt.hashSync(account_password, 10)
       req.flash("notice", "The password was successfully updated.");
       res.status(201).render("./account/management-login", {
         title: "Account Management",
@@ -206,7 +208,7 @@ async function updatePassword(req, res) {
       });
   } else {
     req.flash("notice", "Sorry, the update account failed.");
-    res.status(501).render("./account/edit-account", {
+    res.status(501).render("./account/update", {
       title: "Edit Account",
       nav,
       errors: null,
@@ -215,7 +217,7 @@ async function updatePassword(req, res) {
 } catch (error) {
   console.error("Error updatePassword:", error);
   req.flash("notice", "An error occurred during the update.");
-  res.status(500).render("./account/edit-account", {
+  res.status(500).render("./account/update", {
     title: "Edit Account",
     nav,
     errors: null,

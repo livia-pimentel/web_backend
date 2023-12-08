@@ -106,6 +106,19 @@ validate.loginRules = () => {
         minSymbols: 1,
       })
       .withMessage("Password does not meet requirements."),
+    
+    // Compare the password provided with the password stored in the database
+    body("account_password")
+      .custom(async (account_password, { req }) => {
+        const { account_email } = req.body;
+        const isPasswordCorrect = await accountModel.checkPassword(account_email, account_password);
+
+        if (!isPasswordCorrect) {
+          throw new Error("Incorrect password.");
+        }
+
+        return true;
+      }),
   ]
 }
 
@@ -130,7 +143,8 @@ validate.checkLoginData = async (req, res, next) => {
 }
 
 /* ******************************
- * Check data and return errors or continue to update password
+ * Check data and return errors or 
+ * continue to update password
  * ***************************** */
 validate.checkPasswordData = async (req, res, next) => {
   const { account_id, account_password} = req.body
@@ -144,6 +158,30 @@ validate.checkPasswordData = async (req, res, next) => {
       nav,
       account_id,
       account_password
+    })
+    return
+  }
+  next()
+}
+
+/* ******************************
+ * Check data and return errors or 
+ * continue to update account information
+ * ***************************** */
+validate.checkInformationData = async (req, res, next) => {
+  const { account_id, account_firstname, account_lastname, account_email } = req.body
+  let errors = []
+  errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+    res.render("account/edit-account", {
+      errors,
+      title: "Edit Account",
+      nav,
+      account_id,
+      account_firstname,
+      account_lastname,
+      account_email
     })
     return
   }
@@ -168,7 +206,6 @@ validate.updatePasswordRules = () => {
       .withMessage("Password does not meet requirements."),
   ]
 }
-
 
 /*  **********************************
  *  Update Account Validation Rules
@@ -199,7 +236,7 @@ validate.updateAccountRules = () => {
       // Check if submitted email is same as existing
       if (account_email != account.account_email) {
       // No - Check if email exists in table
-        const updateEmail = await accountModel.updateAccountWithoutPassword(account_email)      
+        const updateEmail = await accountModel.updateAccountInformation(account_email)      
   }
 }),
   ]

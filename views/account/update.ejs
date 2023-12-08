@@ -8,7 +8,7 @@
 <% } %>
 
 
-<form action="/account/edit-account" method="post">
+<form action="/account/update-account" method="post">
     <h1><%= (title) %></h1>
     <fieldset>
         <label for="fisrtname">First Name</label>
@@ -22,7 +22,7 @@
             <% } %>>
     </fieldset>
 </form>
-<form action="/account/edit-password" method="post">
+<form action="/account/update-password" method="post">
     <fieldset>
         <h1>Update Password</h1>
         <span>Passwords must be at least 12 characters and contain at least 1 number, 1 capital letter and 1 special character</span> 
@@ -32,7 +32,7 @@
         <span><i>Passwords must be at least 12 characters and contain at least 1 number, 1 capital letter and 1 special character</i></span> 
         <div id="passwordBtn" class="passwordBtn" onclick="togglePassword()">Show Password</div>
         <button type="submit" class="registerBtn">change Password</button>
-        <input type="hidden" name="account_password" <% if(locals.accountData.account_password) { %> value="<%= locals.accountData.account_password %>" 
+        <input type="hidden" name="account_id" <% if(locals.accountData.account_id) { %> value="<%= locals.accountData.account_id %>" 
         <% } %>>
     </fieldset>
 </form>

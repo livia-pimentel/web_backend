@@ -31,6 +31,11 @@ h1 {
   margin-bottom: 1rem;
 }
 
+.title-view {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
 /******* Mobile ********/
 
 /* Header */
@@ -383,6 +388,11 @@ textarea {
     margin: 2rem auto 2rem auto;
     border: 6px solid green;
     border-radius: 5px;
+  }
+
+  .title-view {
+    font-size: 2rem;
+    margin-bottom: 1rem;
   }
 
   header, main, footer, nav{

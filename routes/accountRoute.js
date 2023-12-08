@@ -34,19 +34,20 @@ routerAccount.post(
   )
 
 //Route "Edit Account" 
-routerAccount.get("/edit-account/:account_id", utilities.handleErrors(accountController.buildEditAccount))
+routerAccount.get("/update/:account_id", utilities.handleErrors(accountController.buildEditAccount))
 
 //Route POST "Edit Account"
 routerAccount.post(
-  "/edit-account",
+  "/update-account",
   regValidate.updateAccountRules(),
+  regValidate.checkInformationData,
   utilities.handleErrors(accountController.updateAccount)
 )
 
 //Route POST "Edit Password"
 routerAccount.post(
-  "/edit-password",
-  // regValidate.updatePasswordRules(),
+  "/update-password",
+  regValidate.updatePasswordRules(),
   regValidate.checkPasswordData,
   utilities.handleErrors(accountController.updatePassword)
 )

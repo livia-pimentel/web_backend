@@ -1,4 +1,5 @@
 const pool = require("../database/")
+const bcrypt = require("bcryptjs")
 
 /* *****************************
 *   Register new account
@@ -22,6 +23,29 @@ async function checkExistingEmail(account_email){
     return email.rowCount
   } catch (error) {
     return error.message
+  }
+}
+
+/* **********************
+ *   Check for existing password
+ * ********************* */
+async function checkPassword(account_email, account_password) {
+  try {
+    const sql = "SELECT * FROM account WHERE account_email = $1";
+    const result = await pool.query(sql, [account_email]);
+
+    if (result.rowCount === 1) {
+      const storedPassword = result.rows[0].account_password;
+
+      // Compare a senha fornecida com a senha armazenada no banco de dados
+      const isPasswordCorrect = await bcrypt.compare(account_password, storedPassword);
+
+      return isPasswordCorrect;
+    }
+
+    return false; // Se o e-mail não existe
+  } catch (error) {
+    throw new Error(error.message);
   }
 }
 
@@ -53,28 +77,15 @@ async function getAccountByEmail (account_email) {
 }
 
 /* *****************************
-*  Update Account
-* *************************** */
-async function updateAccount(account_id, account_firstname, account_lastname, account_email, account_password){
-  // console.log("Data from accountModel - UpdateAccount: ", account_id, account_firstname, account_lastname, account_email, account_password)
-  try {
-    const sql = "UPDATE public.account SET account_firstname = $1, account_lastname = $2, account_email = $3, account_password = $4 WHERE account_id = $5 RETURNING *";
-    const idAccount = parseInt(account_id);
-    return await pool.query(sql, [account_firstname, account_lastname, account_email, account_password, idAccount])
-  } catch (error) {
-    return error.message
-  }
-}
-
-/* *****************************
- *  Update Account With Password
+ *  Update Account Password
  * *************************** */
-async function updateAccountPassword(account_id, account_password) {
+async function updatePassword(account_id, account_password) {
   try {
     const sql = "UPDATE public.account SET account_password = $1 WHERE account_id = $2 RETURNING *";
     const idAccount = parseInt(account_id);
-    const answer = await pool.query(sql, [account_password, idAccount]);
-    return answer.rows[0]
+    const answer = await pool.query(sql, [account_password, account_id]);
+    // console.log("Database answer password: ", answer)
+    return answer
   } catch (error) {
     return error.message;
   }
@@ -83,7 +94,7 @@ async function updateAccountPassword(account_id, account_password) {
 /* *****************************
  *  Update Account Without Password
  * *************************** */
-async function updateAccountWithoutPassword(account_id, account_firstname, account_lastname, account_email) {
+async function updateAccountInformation(account_id, account_firstname, account_lastname, account_email) {
   try {
     const sql = "UPDATE public.account SET account_firstname = $1, account_lastname = $2, account_email = $3 WHERE account_id = $4 RETURNING *";
     const idAccount = parseInt(account_id);
@@ -94,4 +105,4 @@ async function updateAccountWithoutPassword(account_id, account_firstname, accou
   }
 }
 
-module.exports = { registerAccount, checkExistingEmail, getAccountById, getAccountByEmail, updateAccountWithoutPassword, updateAccount, updateAccountPassword }
+module.exports = { registerAccount, checkExistingEmail, getAccountById, getAccountByEmail, updateAccountInformation, updatePassword, checkPassword }
