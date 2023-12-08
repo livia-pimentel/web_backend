@@ -12,9 +12,9 @@
     <h1><%= (title) %></h1>
     <fieldset>
         <label for="fisrtname">First Name</label>
-            <input type="text" id="fisrtname" name="account_firstname" required value="<%= locals.accountData.account_firstname %>" pattern="[A-Za-z]+">
+            <input type="text" id="fisrtname" name="account_firstname" required value="<%= locals.accountData.account_firstname %>" pattern="[A-Za-z]{2,}">
             <label for="lastname">Last Name</label>
-            <input type="text" id="lastname" name="account_lastname" required value="<%= locals.accountData.account_lastname %>" pattern="[A-Za-z]+">
+            <input type="text" id="lastname" name="account_lastname" required value="<%= locals.accountData.account_lastname %>" pattern="[A-Za-z]{2,}">
             <label for="email">Email Address</label>
             <input type="email" id="email" name="account_email" required value="<%= locals.accountData.account_email %>">
             <button type="submit">Update</button>
@@ -31,7 +31,7 @@
         <input type="password" id="password" name="account_password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
         <span><i>Passwords must be at least 12 characters and contain at least 1 number, 1 capital letter and 1 special character</i></span> 
         <div id="passwordBtn" class="passwordBtn" onclick="togglePassword()">Show Password</div>
-        <button type="submit" class="registerBtn">change Password</button>
+        <button type="submit">change Password</button>
         <input type="hidden" name="account_id" <% if(locals.accountData.account_id) { %> value="<%= locals.accountData.account_id %>" 
         <% } %>>
     </fieldset>

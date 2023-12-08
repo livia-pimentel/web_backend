@@ -11,7 +11,7 @@ validate.registationRules = () => {
       // firstname is required and must be string
       body("account_firstname")
         .trim()
-        .isLength({ min: 1 })
+        .isLength({ min: 2 })
         .customSanitizer(value => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()) //Convert the first letter to uppercase and the last letter to lowercase
         .withMessage("Please provide a first name."), // on error this message is sent.
   
@@ -215,7 +215,7 @@ validate.updateAccountRules = () => {
         // firstname is required and must be string
     body("account_firstname")
       .trim()
-      .isLength({ min: 1 })
+      .isLength({ min: 2 })
       .customSanitizer(value => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()) //Convert the first letter to uppercase and the last letter to lowercase
       .withMessage("Please provide a first name."), // on error this message is sent.
 
