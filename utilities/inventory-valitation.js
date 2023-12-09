@@ -11,7 +11,7 @@ validate.invRules = () => {
         // classification is required
         body("classification_id")
           .trim()
-          .isLength({ min: 2 })
+          .notEmpty()
           .withMessage("Please provide a classification."), // on error this message is sent.
     
         // maker is required and must be string
